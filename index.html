@@ -7,10 +7,11 @@
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #f5f5f5;
+            background-color: #f0f0f5;
             color: #333;
             margin: 0;
             padding: 20px;
+            position: relative; /* Для позиционирования свинки */
         }
 
         .container {
@@ -18,28 +19,31 @@
             margin: auto;
             background: white;
             padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
             text-align: center;
             margin-bottom: 20px;
+            font-weight: normal;
         }
 
         .day-card {
             background-color: #ffffff;
             border: 1px solid #e0e0e0;
-            border-radius: 10px;
+            border-radius: 8px;
             padding: 15px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
         }
 
         h2 {
             margin-top: 0;
             margin-bottom: 10px;
-            color: #007aff; /* Цвет заголовка дня */
+            color: #333;
+            font-weight: bold;
+            font-size: 1.2em;
         }
 
         table {
@@ -55,19 +59,40 @@
         }
 
         th {
-            background-color: #f2f2f2;
-        }
-
-        tr:hover {
-            background-color: #f9f9f9;
-        }
-
-        .time {
+            background-color: #f7f7f7;
             font-weight: bold;
         }
 
-        .room {
-            color: #007aff; /* Цвет в стиле Apple */
+        tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .pig {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 50px; /* Размер смайла свинки */
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .explosion {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            z-index: 999;
+        }
+
+        .explosion .pig {
+            font-size: 30px; /* Размер смайлов взрыва */
+            position: absolute;
+            animation: explode 0.5s forwards;
+        }
+
+        @keyframes explode {
+            0% { transform: scale(1); }
+            100% { transform: scale(0); }
         }
     </style>
 </head>
@@ -78,85 +103,59 @@
             <!-- Расписание будет добавлено сюда с помощью JavaScript -->
         </div>
     </div>
+
+    <!-- Смайл свинки -->
+    <div id="pig" class="pig" onclick="explode()">🐷</div>
+
     <script>
         // Массив объектов с расписанием
         const schedule = {
-            monday: [
+            понедельник: [
                 { time: "08:30", subject: "Математика", teacher: "Иванов И.И.", room: "201" },
                 { time: "09:20", subject: "Русский язык", teacher: "Петрова А.А.", room: "305" },
                 { time: "10:10", subject: "История", teacher: "Сидоров П.П.", room: "102" },
-                { time: "11:00", subject: "Физика", teacher: "Николаев С.С.", room: "laboratory" },
+                { time: "11:00", subject: "Физика", teacher: "Николаев С.С.", room: "лаборатория" },
             ],
-            tuesday: [
-                { time: "08:30", subject: "Химия", teacher: "Кузнецова М.М.", room: "laboratory" },
+            вторник: [
+                { time: "08:30", subject: "Химия", teacher: "Кузнецова М.М.", room: "лаборатория" },
                 { time: "09:20", subject: "Английский язык", teacher: "Смирнов Д.Д.", room: "303" },
                 { time: "10:10", subject: "Литература", teacher: "Петрова А.А.", room: "204" },
             ],
-            wednesday: [
-                { time: "08:30", subject: "География", teacher: "Иванов И.И.", room: "305" },
-                { time: "09:20", subject: "Биология", teacher: "Сидоров П.П.", room: "102" },
-                { time: "10:10", subject: "Физическая культура", teacher: "Николаев С.С.", room: "спортзал" },
+            среда: [
+                { time: "08:30", subject: "География", teacher: "Иванов И.И.", room: "201" },
+                { time: "09:20 ", subject: "Физкультура", teacher: "Сидоров П.П.", room: "спортзал" },
+                { time: "10:10", subject: "Музыка", teacher: "Кузнецова М.М.", room: "305" },
             ],
-            thursday: [
-                { time: "08:30", subject: "Информатика", teacher: "Кузнецова М.М.", room: "307" },
-                { time: "09:20", subject: "История", teacher: "Петрова А.А.", room: "102" },
+            четверг: [
+                { time: "08:30", subject: "Информатика", teacher: "Николаев С.С.", room: "307" },
+                { time: "09:20", subject: "Обществознание", teacher: "Петрова А.А.", room: "102" },
             ],
-            friday: [
-                { time: "09:00", subject: "Английский Язык", teacher: "Хиллари Клинтон", room: " 309" },
-                { time: "10:00", subject: "Алгебра", teacher: "Инесса Михайловна", room: "105" },
-                { time: "11:00", subject: "Литература", teacher: "Добрый день", room: "302" },
-                { time: "12:00", subject: "Физика", teacher: "Елена Владимировна", room: "211" },
-                { time: "13:00", subject: "Химия", teacher: "Дура", room: "312" },
-                { time: "13:50", subject: "Физика", teacher: "Елена Владимировна", room: "211" },
-                { time: "14:40", subject: "Проект", teacher: "Незнаю", room: "105" },
+            пятница: [
+                { time: "08:30", subject: "Биология", teacher: "Смирнов Д.Д.", room: "204" },
+                { time: "09:20", subject: "Физика", teacher: "Иванов И.И.", room: "лаборатория" },
+                { time: "10:10", subject: "Химия", teacher: "Кузнецова М.М.", room: "лаборатория" },
+                { time: "11:00", subject: "Литература", teacher: "Петрова А.А.", room: "204" },
             ],
         };
 
-        // Функция для отображения расписания
-        function displaySchedule() {
-            const scheduleContainer = document.getElementById('schedule');
-            scheduleContainer.innerHTML = ''; // Очищаем текущее содержимое
-
-            // Создаем карточки для каждого дня
-            for (const day in schedule) {
-                const dayCard = document.createElement('div');
-                dayCard.className = 'day-card';
-
-                const dayHeader = document.createElement('h2');
-                dayHeader.textContent = day.charAt(0).toUpperCase() + day.slice(1); // Форматируем название дня
-                dayCard.appendChild(dayHeader);
-
-                const table = document.createElement('table');
-                const thead = document.createElement('thead');
-                thead.innerHTML = `
-                    <tr>
-                        <th>Время</th>
-                        <th>Уроки</th>
-                        <th>Преподаватель</th>
-                        <th>Кабинет</th>
-                    </tr>
-                `;
-                table.appendChild(thead);
-
-                const tbody = document.createElement('tbody');
-                schedule[day].forEach(item => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td class="time">${item.time}</td>
-                        <td>${item.subject}</td>
-                        <td>${item.teacher}</td>
-                        <td class="room">${item.room}</td>
-                    `;
-                    tbody.appendChild(row);
-                });
-                table.appendChild(tbody);
-                dayCard.appendChild(table);
-                scheduleContainer.appendChild(dayCard);
+        function explode() {
+            const explosionContainer = document.createElement('div');
+            explosionContainer.className = 'explosion';
+            for (let i = 0; i < 5; i++) {
+                const pigEmoji = document.createElement('div');
+                pigEmoji.className = 'pig';
+                pigEmoji.innerText = '🐷';
+                pigEmoji.style.left = `${Math.random() * 100}px`;
+                pigEmoji.style.top = `${Math.random() * 100}px`;
+                explosionContainer.appendChild(pigEmoji);
             }
-        }
+            document.body.appendChild(explosionContainer);
+            explosionContainer.style.display = 'block';
 
-        // Вызываем функцию для отображения расписания
-        displaySchedule();
+            setTimeout(() => {
+                explosionContainer.remove();
+            }, 500); // Удаляем контейнер после завершения анимации
+        }
     </script>
 </body>
 </html>
