@@ -80,40 +80,50 @@
     </div>
     <script>
         // Массив объектов с расписанием
-        const schedule = [
-            { day: "Понедельник", time: "8:30 - 9:15", subject: "Математика", room: "101" },
-            { day: "Понедельник", time: "9:30 - 10:15", subject: "Физика", room: "102" },
-            { day: "Вторник", time: "8:30 - 9:15", subject: "Химия", room: "201" },
-            { day: "Вторник", time: "9:30 - 10:15", subject: "Биология", room: "202" },
-            { day: "Среда", time: "8:30 - 9:15", subject: "История", room: "301" },
-            { day: "Среда", time: "9:30 - 10:15", subject: "География", room: "302" },
-            { day: "Четверг", time: "8:30 - 9:15", subject: "Литература", room: "401" },
-            { day: "Четверг", time: "9:30 - 10:15", subject: "Английский", room: "402" },
-            { day: "Пятница", time: "8:30 - 9:15", subject: "Физкультура", room: "Gym" },
-            { day: "Пятница", time: "9:30 - 10:15", subject: "Искусство", room: "403" },
-        ];
+        const schedule = {
+            monday: [
+                { time: "08:30", subject: "Математика", teacher: "Иванов И.И.", room: "201" },
+                { time: "09:20", subject: "Русский язык", teacher: "Петрова А.А.", room: "305" },
+                { time: "10:10", subject: "История", teacher: "Сидоров П.П.", room: "102" },
+                { time: "11:00", subject: "Физика", teacher: "Николаев С.С.", room: "laboratory" },
+            ],
+            tuesday: [
+                { time: "08:30", subject: "Химия", teacher: "Кузнецова М.М.", room: "laboratory" },
+                { time: "09:20", subject: "Английский язык", teacher: "Смирнов Д.Д.", room: "303" },
+                { time: "10:10", subject: "Литература", teacher: "Петрова А.А.", room: "204" },
+            ],
+            wednesday: [
+                { time: "08:30", subject: "География", teacher: "Иванов И.И.", room: "305" },
+                { time: "09:20", subject: "Биология", teacher: "Сидоров П.П.", room: "102" },
+                { time: "10:10", subject: "Физическая культура", teacher: "Николаев С.С.", room: "спортзал" },
+            ],
+            thursday: [
+                { time: "08:30", subject: "Информатика", teacher: "Кузнецова М.М.", room: "307" },
+                { time: "09:20", subject: "История", teacher: "Петрова А.А.", room: "102" },
+            ],
+            friday: [
+                { time: "09:00", subject: "Английский Язык", teacher: "Хиллари Клинтон", room: " 309" },
+                { time: "10:00", subject: "Алгебра", teacher: "Инесса Михайловна", room: "105" },
+                { time: "11:00", subject: "Литература", teacher: "Добрый день", room: "302" },
+                { time: "12:00", subject: "Физика", teacher: "Елена Владимировна", room: "211" },
+                { time: "13:00", subject: "Химия", teacher: "Дура", room: "312" },
+                { time: "13:50", subject: "Физика", teacher: "Елена Владимировна", room: "211" },
+                { time: "14:40", subject: "Проект", teacher: "Незнаю", room: "105" },
+            ],
+        };
 
         // Функция для отображения расписания
         function displaySchedule() {
             const scheduleContainer = document.getElementById('schedule');
             scheduleContainer.innerHTML = ''; // Очищаем текущее содержимое
 
-            // Группируем уроки по дням
-            const groupedSchedule = schedule.reduce((acc, item) => {
-                if (!acc[item.day]) {
-                    acc[item.day] = [];
-                }
-                acc[item.day].push(item);
-                return acc;
-            }, {});
-
             // Создаем карточки для каждого дня
-            for (const day in groupedSchedule) {
+            for (const day in schedule) {
                 const dayCard = document.createElement('div');
                 dayCard.className = 'day-card';
 
                 const dayHeader = document.createElement('h2');
-                dayHeader.textContent = day;
+                dayHeader.textContent = day.charAt(0).toUpperCase() + day.slice(1); // Форматируем название дня
                 dayCard.appendChild(dayHeader);
 
                 const table = document.createElement('table');
@@ -122,17 +132,19 @@
                     <tr>
                         <th>Время</th>
                         <th>Уроки</th>
+                        <th>Преподаватель</th>
                         <th>Кабинет</th>
                     </tr>
                 `;
                 table.appendChild(thead);
 
                 const tbody = document.createElement('tbody');
-                groupedSchedule[day].forEach(item => {
+                schedule[day].forEach(item => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td class="time">${item.time}</td>
                         <td>${item.subject}</td>
+                        <td>${item.teacher}</td>
                         <td class="room">${item.room}</td>
                     `;
                     tbody.appendChild(row);
