@@ -11,7 +11,7 @@
             color: #333;
             margin: 0;
             padding: 20px;
-            position: relative; /* Для позиционирования свинки */
+            position: relative;
         }
 
         .container {
@@ -71,28 +71,30 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            font-size: 50px; /* Размер смайла свинки */
+            font-size: 50px;
             cursor: pointer;
             z-index: 1000;
         }
 
         .explosion {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 0;
+            right: 0;
+            top: 0;
+            left: 0;
             display: none;
             z-index: 999;
         }
 
         .explosion .pig {
-            font-size: 30px; /* Размер смайлов взрыва */
+            font-size: 30px;
             position: absolute;
             animation: explode 0.5s forwards;
         }
 
         @keyframes explode {
-            0% { transform: scale(1); }
-            100% { transform: scale(0); }
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
         }
     </style>
 </head>
@@ -104,11 +106,9 @@
         </div>
     </div>
 
-    <!-- Смайл свинки -->
     <div id="pig" class="pig" onclick="explode()">🐷</div>
 
     <script>
-        // Массив объектов с расписанием
         const schedule = {
             понедельник: [
                 { time: "08:30", subject: "Математика", teacher: "Иванов И.И.", room: "201" },
@@ -123,7 +123,7 @@
             ],
             среда: [
                 { time: "08:30", subject: "География", teacher: "Иванов И.И.", room: "201" },
-                { time: "09:20 ", subject: "Физкультура", teacher: "Сидоров П.П.", room: "спортзал" },
+                { time: "09:20", subject: "Физкультура", teacher: "Сидоров П.П.", room: "спортзал" },
                 { time: "10:10", subject: "Музыка", teacher: "Кузнецова М.М.", room: "305" },
             ],
             четверг: [
@@ -138,24 +138,71 @@
             ],
         };
 
+        function renderSchedule() {
+            const scheduleContainer = document.getElementById('schedule');
+            
+            for (const [day, lessons] of Object.entries(schedule)) {
+                const dayCard = document.createElement('div');
+                dayCard.className = 'day-card';
+                
+                const dayTitle = document.createElement('h2');
+                dayTitle.textContent = day.charAt(0).toUpperCase() + day.slice(1);
+                dayCard.appendChild(dayTitle);
+                
+                const table = document.createElement('table');
+                const thead = document.createElement('thead');
+                thead.innerHTML = `
+                    <tr>
+                        <th>Время</th>
+                        <th>Предмет</th>
+                        <th>Учитель</th>
+                        <th>Кабинет</th>
+                    </tr>
+                `;
+                table.appendChild(thead);
+                
+                const tbody = document.createElement('tbody');
+                lessons.forEach(lesson => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${lesson.time}</td>
+                        <td>${lesson.subject}</td>
+                        <td>${lesson.teacher}</td>
+                        <td>${lesson.room}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+                
+                table.appendChild(tbody);
+                dayCard.appendChild(table);
+                scheduleContainer.appendChild(dayCard);
+            }
+        }
+
         function explode() {
             const explosionContainer = document.createElement('div');
             explosionContainer.className = 'explosion';
-            for (let i = 0; i < 5; i++) {
+            
+            for (let i = 0; i < 10; i++) {
                 const pigEmoji = document.createElement('div');
                 pigEmoji.className = 'pig';
                 pigEmoji.innerText = '🐷';
-                pigEmoji.style.left = `${Math.random() * 100}px`;
-                pigEmoji.style.top = `${Math.random() * 100}px`;
+                
+                pigEmoji.style.left = `${Math.random() * 100}%`;
+                pigEmoji.style.top = `${Math.random() * 100}%`;
+                
                 explosionContainer.appendChild(pigEmoji);
             }
+            
             document.body.appendChild(explosionContainer);
             explosionContainer.style.display = 'block';
 
             setTimeout(() => {
                 explosionContainer.remove();
-            }, 500); // Удаляем контейнер после завершения анимации
+            },  500);
         }
+
+        window.onload = renderSchedule;
     </script>
 </body>
 </html>
