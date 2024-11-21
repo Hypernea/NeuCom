@@ -18,8 +18,8 @@
             margin: auto;
             background: white;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
@@ -27,14 +27,29 @@
             margin-bottom: 20px;
         }
 
+        .day-card {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #007aff; /* Цвет заголовка дня */
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         th, td {
-            padding: 15px;
+            padding: 10px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
@@ -59,80 +74,77 @@
 <body>
     <div class="container">
         <h1>Расписание уроков</h1>
-        <table id="schedule">
-            <thead>
-                <tr>
-                    <th>День</th>
-                    <th>Время</th>
-                    <th>Уроки</th>
-                    <th>Кабинет</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Понедельник</td>
-                    <td class="time">8:30 - 9:15</td>
-                    <td>Математика</td>
-                    <td class="room">101</td>
-                </tr>
-                <tr>
-                    <td>Понедельник</td>
-                    <td class="time">9:30 - 10:15</td>
-                    <td>Физика</td>
-                    <td class="room">102</td>
-                </tr>
-                <tr>
-                    <td>Вторник</td>
-                    <td class="time">8:30 - 9:15</td>
-                    <td>Химия</td>
-                    <td class="room">201</td>
-                </tr>
-                <tr>
-                    <td>Вторник</td>
-                    <td class="time">9:30 - 10:15</td>
-                    <td>Биология</td>
-                    <td class="room">202</td>
-                </tr>
-                <tr>
-                    <td>Среда</td>
-                    <td class="time">8:30 - 9:15</td>
-                    <td>История</td>
-                    <td class="room">301</td>
-                </tr>
-                <tr>
-                    <td>Среда</td>
-                    <td class="time">9:30 - 10:15</td>
-                    <td>География</td>
-                    <td class="room">302</td>
-                </tr>
-                <tr>
-                    <td>Четверг</td>
-                    <td class="time">8:30 - 9:15</td>
-                    <td>Литература</td>
-                    <td class="room">401</td>
-                </tr>
-                <tr>
-                    <td>Четверг</td>
-                    <td class="time">9:30 - 10:15</td>
-                    <td>Английский</td>
-                    <td class="room">402</td>
-                </tr>
-                <tr>
-                    <td>Пятница</td>
-                    <td class="time">8:30 - 9:15</td>
-                    <td>Физкультура</td>
-                    <td class="room">Gym</td>
-                </tr>
-                <tr>
-                    <td>Пятница</td>
-                    <td class="time">9:30 - 10:15</td>
-                    <td>Искусство</td>
-                    <td class="room">403</td>
-                </tr </tbody>
-        </table>
+        <div id="schedule">
+            <!-- Расписание будет добавлено сюда с помощью JavaScript -->
+        </div>
     </div>
     <script>
-        // Здесь можно добавить логику для динамического обновления расписания, если это необходимо
+        // Массив объектов с расписанием
+        const schedule = [
+            { day: "Понедельник", time: "8:30 - 9:15", subject: "Математика", room: "101" },
+            { day: "Понедельник", time: "9:30 - 10:15", subject: "Физика", room: "102" },
+            { day: "Вторник", time: "8:30 - 9:15", subject: "Химия", room: "201" },
+            { day: "Вторник", time: "9:30 - 10:15", subject: "Биология", room: "202" },
+            { day: "Среда", time: "8:30 - 9:15", subject: "История", room: "301" },
+            { day: "Среда", time: "9:30 - 10:15", subject: "География", room: "302" },
+            { day: "Четверг", time: "8:30 - 9:15", subject: "Литература", room: "401" },
+            { day: "Четверг", time: "9:30 - 10:15", subject: "Английский", room: "402" },
+            { day: "Пятница", time: "8:30 - 9:15", subject: "Физкультура", room: "Gym" },
+            { day: "Пятница", time: "9:30 - 10:15", subject: "Искусство", room: "403" },
+        ];
+
+        // Функция для отображения расписания
+        function displaySchedule() {
+            const scheduleContainer = document.getElementById('schedule');
+            scheduleContainer.innerHTML = ''; // Очищаем текущее содержимое
+
+            // Группируем уроки по дням
+            const groupedSchedule = schedule.reduce((acc, item) => {
+                if (!acc[item.day]) {
+                    acc[item.day] = [];
+                }
+                acc[item.day].push(item);
+                return acc;
+            }, {});
+
+            // Создаем карточки для каждого дня
+            for (const day in groupedSchedule) {
+                const dayCard = document.createElement('div');
+                dayCard.className = 'day-card';
+
+                const dayHeader = document.createElement('h2');
+                dayHeader.textContent = day;
+                dayCard.appendChild(dayHeader);
+
+                const table = document.createElement('table');
+                const thead = document.createElement('thead');
+                thead.innerHTML = `
+                    <tr>
+                        <th>Время</th>
+                        <th>Уроки</th>
+                        <th>Кабинет</th>
+                    </tr>
+                `;
+                table.appendChild(thead);
+
+                const tbody = document.createElement('tbody');
+                groupedSchedule[day].forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="time">${item.time}</td>
+                        <td>${item.subject}</td>
+                        <td class="room">${item.room}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+                table.appendChild(tbody);
+                dayCard.appendChild(table);
+                scheduleContainer.appendChild(dayCard);
+            }
+        }
+
+        // Вызываем функцию для отображения расписания
+        displaySchedule();
     </script>
 </body>
 </html>
