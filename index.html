@@ -14,7 +14,7 @@
         }
 
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: auto;
             background: white;
             padding: 20px;
@@ -24,21 +24,35 @@
 
         h1 {
             text-align: center;
+            margin-bottom: 20px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
 
         th, td {
-            padding: 10px;
+            padding: 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
 
         th {
             background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .time {
+            font-weight: bold;
+        }
+
+        .room {
+            color: #007aff; /* Цвет в стиле Apple */
         }
     </style>
 </head>
@@ -49,31 +63,72 @@
             <thead>
                 <tr>
                     <th>День</th>
+                    <th>Время</th>
                     <th>Уроки</th>
+                    <th>Кабинет</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>Понедельник</td>
-                    <td>Математика, Физика</td>
+                    <td class="time">8:30 - 9:15</td>
+                    <td>Математика</td>
+                    <td class="room">101</td>
+                </tr>
+                <tr>
+                    <td>Понедельник</td>
+                    <td class="time">9:30 - 10:15</td>
+                    <td>Физика</td>
+                    <td class="room">102</td>
                 </tr>
                 <tr>
                     <td>Вторник</td>
-                    <td>Химия, Биология</td>
+                    <td class="time">8:30 - 9:15</td>
+                    <td>Химия</td>
+                    <td class="room">201</td>
+                </tr>
+                <tr>
+                    <td>Вторник</td>
+                    <td class="time">9:30 - 10:15</td>
+                    <td>Биология</td>
+                    <td class="room">202</td>
                 </tr>
                 <tr>
                     <td>Среда</td>
-                    <td>История, География</td>
+                    <td class="time">8:30 - 9:15</td>
+                    <td>История</td>
+                    <td class="room">301</td>
+                </tr>
+                <tr>
+                    <td>Среда</td>
+                    <td class="time">9:30 - 10:15</td>
+                    <td>География</td>
+                    <td class="room">302</td>
                 </tr>
                 <tr>
                     <td>Четверг</td>
-                    <td>Литература, Английский</td>
+                    <td class="time">8:30 - 9:15</td>
+                    <td>Литература</td>
+                    <td class="room">401</td>
+                </tr>
+                <tr>
+                    <td>Четверг</td>
+                    <td class="time">9:30 - 10:15</td>
+                    <td>Английский</td>
+                    <td class="room">402</td>
                 </tr>
                 <tr>
                     <td>Пятница</td>
-                    <td>Физкультура, Искусство</td>
+                    <td class="time">8:30 - 9:15</td>
+                    <td>Физкультура</td>
+                    <td class="room">Gym</td>
                 </tr>
-            </tbody>
+                <tr>
+                    <td>Пятница</td>
+                    <td class="time">9:30 - 10:15</td>
+                    <td>Искусство</td>
+                    <td class="room">403</td>
+                </tr </tbody>
         </table>
     </div>
     <script>
