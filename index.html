@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расписание и Добавление Уроков</title>
+    <style>
+        body {
+            color: var(--tg-theme-text-color);
+            background: var(--tg-theme-bg-color);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        input, select {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #schedule {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Расписание и Добавление Уроков</h1>
+    <input type="text" id="subject" placeholder="Предмет" required>
+    <input type="text" id="lesson_time" placeholder="Время (HH:MM)" required>
+    <input type="text" id="teacher" placeholder="Преподаватель" required>
+    <input type="text" id="cabinet" placeholder="Кабинет" required>
+    <select id="day_of_week">
+        <option value="monday">Понедельник</option>
+        <option value="tuesday">Вторник</option>
+        <option value="wednesday">Среда</option>
+        <option value="thursday">Четверг</option>
+        <option value="friday">Пятница</option>
+    </select>
+    <button id="addLessonBtn">Добавить урок</button>
+
+    <div id="schedule"></div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        let tg = window.Telegram.WebApp;
+
+        document.getElementById("addLessonBtn").addEventListener("click", () => {
+            let subject = document.getElementById("subject").value;
+            let lesson_time = document.getElementById("lesson_time").value;
+            let teacher = document.getElementById("teacher").value;
+            let cabinet = document.getElementById("cabinet").value;
+            let day_of_week = document.getElementById("day_of_week").value;
+
+            let data = {
+                subject: subject,
+                lesson_time: lesson_time,
+                teacher: teacher,
+                cabinet: cabinet,
+                day_of_week: day_of_week
+            };
+
+            tg.sendData(JSON.stringify(data));
+            tg.close();
+        });
+
+        // Функция для получения расписания
+        function fetchSchedule() {
+            // Здесь можно сделать запрос к вашему боту для получения расписания
+            // Например, через fetch API
+        }
+
+        // Вызов функции для получения расписания при загрузке
+        fetchSchedule();
+    </script>
+</body>
+</html>
